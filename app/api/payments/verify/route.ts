@@ -70,7 +70,12 @@ export async function POST(request: NextRequest) {
         billing_email: order.billingAddress.phone, // Using phone as email for now
         billing_phone: order.billingAddress.phone,
         shipping_is_billing: true,
-        order_items: order.items.map(item => ({
+        order_items: order.items.map((item: {
+          product: { name: string; id: string };
+          variant?: { sku: string } | null;
+          quantity: number;
+          unitPrice: number | string;
+        }) => ({
           name: item.product.name,
           sku: item.variant?.sku || item.product.id,
           units: item.quantity,
