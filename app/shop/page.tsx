@@ -5,7 +5,7 @@ import { SortDropdown } from '@/components/sort-dropdown'
 import { ProductGridSkeleton } from '@/components/skeletons/product-grid-skeleton'
 
 interface ShopPageProps {
-  searchParams: {
+  searchParams: Promise<{
     type?: string
     price?: string
     dietary?: string
@@ -13,10 +13,12 @@ interface ShopPageProps {
     occasion?: string
     sort?: string
     page?: string
-  }
+  }>
 }
 
-export default function ShopPage({ searchParams }: ShopPageProps) {
+export default async function ShopPage({ searchParams }: ShopPageProps) {
+  const resolvedSearchParams = await searchParams
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-ivory via-white to-accent/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -62,7 +64,7 @@ export default function ShopPage({ searchParams }: ShopPageProps) {
 
             {/* Product Grid */}
             <Suspense fallback={<ProductGridSkeleton />}>
-              <ProductGrid searchParams={searchParams} />
+              <ProductGrid searchParams={resolvedSearchParams} />
             </Suspense>
           </div>
         </div>
