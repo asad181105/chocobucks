@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { X, Filter } from 'lucide-react'
 
-export function FilterSidebar() {
+function FilterSidebarContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
@@ -299,5 +299,19 @@ export function FilterSidebar() {
         </div>
       )}
     </>
+  )
+}
+
+export function FilterSidebar() {
+  return (
+    <Suspense fallback={
+      <div className="space-y-6">
+        <div className="h-8 bg-gray-200 rounded animate-pulse"></div>
+        <div className="h-32 bg-gray-200 rounded animate-pulse"></div>
+        <div className="h-32 bg-gray-200 rounded animate-pulse"></div>
+      </div>
+    }>
+      <FilterSidebarContent />
+    </Suspense>
   )
 }
